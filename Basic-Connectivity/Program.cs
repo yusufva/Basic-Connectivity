@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System.Net.NetworkInformation;
+using System.Xml.Linq;
 
 namespace Basic_Connectivity
 {
@@ -13,7 +14,8 @@ namespace Basic_Connectivity
             //GetAllRegion();
             //InsertRegion("Jawa Tengah");
             //GetRegionById(11);
-            UpdateRegion(11, "Jawa Barat");
+            //UpdateRegion(11, "Jawa Barat");
+            DeleteRegion(12);
         }
 
         // GET ALL : Regions
@@ -148,7 +150,7 @@ namespace Basic_Connectivity
             using var command = new SqlCommand();
 
             command.Connection = connection;
-            command.CommandText = "UPDATE region SET name = @name WHERE id = @id"
+            command.CommandText = "UPDATE region SET name = @name WHERE id = @id";
 
             try
             {
@@ -200,7 +202,52 @@ namespace Basic_Connectivity
         // Delete : Region
         public static void DeleteRegion(int id)
         {
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand();
 
+            command.Connection = connection;
+            command.CommandText = "DELETE FROM region WHERE id = @id";
+
+            try
+            {
+                connection.Open();
+                using SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+                    SqlParameter pId = new SqlParameter();
+                    pId.ParameterName = "id";
+                    pId.Value = id;
+                    pId.SqlDbType = SqlDbType.Int;
+                    command.Parameters.Add(pId);
+
+                    command.Transaction = transaction;
+
+                    int result = command.ExecuteNonQuery();
+
+                    transaction.Commit();
+                    connection.Close();
+
+                    switch (result)
+                    {
+                        case >= 1:
+                            Console.WriteLine("Delete success");
+                            break;
+                        default:
+                            Console.WriteLine("Delete failed");
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error transaction: {e.Message}");
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
         }
     }
 }
