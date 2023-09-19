@@ -13,7 +13,8 @@ namespace Basic_Connectivity
         {
             //GetAllRegion();
             //InsertRegion("Jawa Tengah");
-            GetRegionById(11);
+            //GetRegionById(11);
+            UpdateRegion(11, "Jawa Barat");
         }
 
         // GET ALL : Regions
@@ -140,7 +141,63 @@ namespace Basic_Connectivity
             }
 
         }
+        
         // Update : Region
+        public static void UpdateRegion(int id, string name)
+        {
+            using SqlConnection connection = new SqlConnection(connectionString);
+            using SqlCommand command = new SqlCommand();
+
+            command.Connection = connection;
+            command.CommandText = "UPDATE region SET name = @name WHERE id = @id";
+
+
+            try
+            {
+                connection.Open();
+                using SqlTransaction transaction = connection.BeginTransaction();
+                try
+                {
+                    SqlParameter pName = new SqlParameter();
+                    pName.ParameterName = "name";
+                    pName.Value = name;
+                    pName.SqlDbType = SqlDbType.VarChar;
+                    command.Parameters.Add(pName);
+
+                    SqlParameter pId = new SqlParameter();
+                    pId.ParameterName = "id";
+                    pId.Value = id;
+                    pId.SqlDbType = SqlDbType.Int;
+                    command.Parameters.Add(pId);
+
+                    command.Transaction = transaction;
+
+                    int result = command.ExecuteNonQuery();
+
+                    transaction.Commit();
+                    connection.Close();
+
+                    switch (result)
+                    {
+                        case >= 1:
+                            Console.WriteLine("Update success");
+                            break;
+                        default:
+                            Console.WriteLine("Update failed");
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Error transaction: {e.Message}");
+                }
+
+            } catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
 
         // Delete : Region
     }
