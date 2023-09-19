@@ -11,8 +11,9 @@ namespace Basic_Connectivity
 
         static void Main(string[] args)
         {
-            GetAllRegion();
+            //GetAllRegion();
             //InsertRegion("Jawa Tengah");
+            GetRegionById(11);
         }
 
         // GET ALL : Regions
@@ -49,6 +50,45 @@ namespace Basic_Connectivity
         }
 
         // GET BY ID : Region
+        public static void GetRegionById(int id)
+        {
+            connection = new SqlConnection(connectionString);
+            using SqlCommand command = new SqlCommand();
+            command.Connection = connection;
+            command.CommandText = "SELECT * FROM region WHERE id = @id";
+            SqlParameter pId = new SqlParameter();
+            pId.ParameterName = "id";
+            pId.Value = id;
+            pId.SqlDbType = SqlDbType.Int;
+            command.Parameters.Add(pId);
+
+            try { 
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                    Console.WriteLine("Id: " + reader.GetInt32(0));
+                    Console.WriteLine("Name: "+ reader.GetString(1));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Region with id: {id} not found");
+                }
+
+                reader.Close();
+            } catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            } finally
+            {
+                connection.Close();
+            }
+        }
 
         // INSERT: Region
         public static void InsertRegion(string name)
@@ -101,6 +141,7 @@ namespace Basic_Connectivity
 
         }
         // Update : Region
+
         // Delete : Region
     }
 }
