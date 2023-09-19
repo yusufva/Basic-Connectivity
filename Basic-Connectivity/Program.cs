@@ -7,7 +7,6 @@ namespace Basic_Connectivity
     internal class Program
     {
         static string connectionString = "Data Source=DESKTOP-A42IQOB;Database=db_hr_dts;Connect Timeout=30;Integrated Security=True";
-        static SqlConnection connection;
 
         static void Main(string[] args)
         {
@@ -20,8 +19,8 @@ namespace Basic_Connectivity
         // GET ALL : Regions
         public static void GetAllRegion()
         {
-            connection = new SqlConnection(connectionString);
-            using SqlCommand command = new SqlCommand();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand();
             command.Connection = connection;
             command.CommandText = "SELECT * FROM region";
 
@@ -53,8 +52,8 @@ namespace Basic_Connectivity
         // GET BY ID : Region
         public static void GetRegionById(int id)
         {
-            connection = new SqlConnection(connectionString);
-            using SqlCommand command = new SqlCommand();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand();
             command.Connection = connection;
             command.CommandText = "SELECT * FROM region WHERE id = @id";
             SqlParameter pId = new SqlParameter();
@@ -94,8 +93,8 @@ namespace Basic_Connectivity
         // INSERT: Region
         public static void InsertRegion(string name)
         {
-            using SqlConnection connection = new SqlConnection(connectionString);
-            using SqlCommand command = new SqlCommand();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand();
             
             command.Connection = connection;
             command.CommandText = "INSERT INTO region VALUES (@name)";
@@ -145,12 +144,11 @@ namespace Basic_Connectivity
         // Update : Region
         public static void UpdateRegion(int id, string name)
         {
-            using SqlConnection connection = new SqlConnection(connectionString);
-            using SqlCommand command = new SqlCommand();
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand();
 
             command.Connection = connection;
-            command.CommandText = "UPDATE region SET name = @name WHERE id = @id";
-
+            command.CommandText = "UPDATE region SET name = @name WHERE id = @id"
 
             try
             {
@@ -200,5 +198,9 @@ namespace Basic_Connectivity
         }
 
         // Delete : Region
+        public static void DeleteRegion(int id)
+        {
+
+        }
     }
 }
