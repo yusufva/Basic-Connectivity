@@ -16,6 +16,10 @@ namespace Basic_Connectivity
         public string Id { get; set; }
         public string Name { get; set; }
         public int RegionId { get; set; }
+        public override string ToString()
+        {
+            return $"{Id} - {Name} - {RegionId}";
+        }
 
         public Country() { 
             Id = string.Empty;
@@ -47,7 +51,7 @@ namespace Basic_Connectivity
                 {
                     SqlParameter pId = new SqlParameter(); //pendefinisian parameter baru
                     pId.ParameterName = "id"; //meng assign nama parameter
-                    pId.Value = country.Id; //meng assign value parameter
+                    pId.Value = id; //meng assign value parameter
                     pId.SqlDbType = SqlDbType.Char; //meng assign tipe data parameter pada DB
                     command.Parameters.Add(pId); //command menambahkan parameter ke dalam sql query
 

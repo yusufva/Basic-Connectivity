@@ -25,7 +25,10 @@ namespace Basic_Connectivity
             Name = name;
         }
 
-
+        public override string ToString()
+        {
+            return $"{Id} - {Name}";
+        }
 
         // GET ALL : Regions
         public List<Region> GetAll()

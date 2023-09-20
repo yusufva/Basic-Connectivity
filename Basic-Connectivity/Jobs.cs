@@ -17,6 +17,11 @@ namespace Basic_Connectivity
         public int minSalary { get; set; }
         public int maxSalary { get; set; }
 
+        public override string ToString()
+        {
+            return $"{id} - {title} - {minSalary} - {maxSalary}";
+        }
+
         public Jobs()
         {
             this.id = string.Empty;

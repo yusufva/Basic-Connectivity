@@ -17,6 +17,11 @@ namespace Basic_Connectivity
         public int locationId { get; set; }
         public int managerId { get; set; }
 
+        public override string ToString()
+        {
+            return $"{Id} - {Name} - {locationId} - {managerId}";
+        }
+
         public Departments() { 
             this.Id = 0;
             this.Name = string.Empty;

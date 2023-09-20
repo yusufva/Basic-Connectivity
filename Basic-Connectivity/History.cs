@@ -18,6 +18,11 @@ namespace Basic_Connectivity
         public int deparmentId { get; set; }
         public string jobId { get; set; }
 
+        public override string ToString()
+        {
+            return $"{startDate} - {endDate} - {employeeId} - {deparmentId} - {jobId}";
+        }
+
         public History()
         {
             startDate = DateTime.Now;

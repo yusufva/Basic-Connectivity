@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics.Metrics;
+using System.Xml.Linq;
 
 namespace Basic_Connectivity
 {
@@ -19,6 +20,11 @@ namespace Basic_Connectivity
         public string city { get; set; }
         public string statProvince { get; set; }
         public string countryId { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id} - {streetAddress} - {postalCode} - {city} - {statProvince} - {countryId}";
+        }
 
         public Locations()
         {

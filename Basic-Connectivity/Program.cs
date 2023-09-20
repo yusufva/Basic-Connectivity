@@ -7,21 +7,133 @@ namespace Basic_Connectivity
 {
     internal class Program
     {
-        // connection string untuk menghubungkan dengan database
-        static string connectionString = "Data Source=DESKTOP-A42IQOB;Database=db_hr_dts;Connect Timeout=30;Integrated Security=True";
 
         //program utama
         static void Main(string[] args)
         {
-            //pemanggilan method - method yang telah dibuat
-            var region = new Region();
-            var getAllRegion = region.GetAll();
-            //InsertRegion("Jawa Tengah");
-            //GetRegionById(11);
-            //UpdateRegion(11, "Jawa Barat");
-            //DeleteRegion(12);
+            var choice = true;
+            while (choice)
+            {
+                Console.WriteLine("1. List all regions");
+                Console.WriteLine("2. List all countries");
+                Console.WriteLine("3. List all locations");
+                Console.WriteLine("4. List all departments");
+                Console.WriteLine("5. List all jobs");
+                Console.WriteLine("6. List all histories");
+                Console.WriteLine("7. List all employees");
+                Console.WriteLine("8. Exit");
+                Console.Write("Enter your choice: ");
+                var input = Console.ReadLine();
+                if (input == "9")
+                {
+                    Console.WriteLine("1. List all regions");
+                    Console.WriteLine("2. List all countries");
+                    Console.WriteLine("3. List all locations");
+                    Console.WriteLine("4. List all departments");
+                    Console.WriteLine("5. List all jobs");
+                    Console.WriteLine("6. List all histories");
+                    Console.WriteLine("7. List all employees");
+                    Console.WriteLine("8. Exit");
+                    Console.Write("Enter your choice: ");
+                    var add = Console.ReadLine();
+                }
+                choice = Menu(input);
+            }
+        }
+        public static bool Menu(string input)
+        {
+            switch (input)
+            {
+                case "1":
+                    var region = new Region();
+                    var regions = region.GetAll();
+                    GeneralMenu.List(regions, "regions");
+                    break;
+                case "2":
+                    var country = new Country();
+                    var countries = country.GetAll();
+                    GeneralMenu.List(countries, "countries");
+                    break;
+                case "3":
+                    var location = new Locations();
+                    var locations = location.GetAll();
+                    GeneralMenu.List(locations, "locations");
+                    break;
+                case "4":
+                    var department = new Departments();
+                    var departments = department.GetAll();
+                    GeneralMenu.List(departments, "departments");
+                    break;
+                case "5":
+                    var job = new Jobs();
+                    var jobs = job.GetAll();
+                    GeneralMenu.List(jobs, "jobs");
+                    break;
+                case "6":
+                    var history = new History();
+                    var histories = history.GetAll();
+                    GeneralMenu.List(histories, "histories");
+                    break;
+                case "7":
+                    var employee = new Employee();
+                    var employees = employee.GetAll();
+                    GeneralMenu.List(employees, "employees");
+                    break;
+                case "8":
+                    return false;
+                default:
+                    Console.WriteLine("Invalid choice");
+                    break;
+            }
+            return true;
         }
 
-        
+        public static bool Insert(string input)
+        {
+            switch (input)
+            {
+                case "1":
+                    var region = new Region();
+                    var regions = region.GetAll();
+                    GeneralMenu.List(regions, "regions");
+                    break;
+                case "2":
+                    var country = new Country();
+                    var countries = country.GetAll();
+                    GeneralMenu.List(countries, "countries");
+                    break;
+                case "3":
+                    var location = new Locations();
+                    var locations = location.GetAll();
+                    GeneralMenu.List(locations, "locations");
+                    break;
+                case "4":
+                    var department = new Departments();
+                    var departments = department.GetAll();
+                    GeneralMenu.List(departments, "departments");
+                    break;
+                case "5":
+                    var job = new Jobs();
+                    var jobs = job.GetAll();
+                    GeneralMenu.List(jobs, "jobs");
+                    break;
+                case "6":
+                    var history = new History();
+                    var histories = history.GetAll();
+                    GeneralMenu.List(histories, "histories");
+                    break;
+                case "7":
+                    var employee = new Employee();
+                    var employees = employee.GetAll();
+                    GeneralMenu.List(employees, "employees");
+                    break;
+                case "8":
+                    return false;
+                default:
+                    Console.WriteLine("Invalid choice");
+                    break;
+            }
+            return true;
+        }
     }
 }
