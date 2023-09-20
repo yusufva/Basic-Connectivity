@@ -200,7 +200,6 @@ namespace Basic_Connectivity
             command.Connection = connection; //command koneksi ke database
             command.CommandText = $"UPDATE {tableName} SET title = @title, min_salary = @minSalary, max_salary = @maxSalary WHERE id = @id)"; //command sql query yang akan dijalankan
 
-
             try
             {
                 connection.Open(); //membuka koneksi ke db
