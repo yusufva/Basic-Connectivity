@@ -12,6 +12,6 @@ namespace Basic_Connectivity
         T GetById(TId id);
         string Insert(T entity);
         string Update(T entity);
-        string Delete(T entity);
+        string Delete(TId id);
     }
 }
