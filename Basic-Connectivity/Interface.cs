@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Basic_Connectivity
 {
-    public interface Interface<T>
+    public interface Interface<T, TId>
     {
         List<T> GetAll();
-        T GetById(int id);
+        T GetById(TId id);
         string Insert(T entity);
         string Update(T entity);
         string Delete(T entity);

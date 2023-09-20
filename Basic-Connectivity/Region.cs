@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Basic_Connectivity
 {
-    public class Region : Interface<Region>
+    public class Region : Interface<Region,int>
     {
         private static Connect connectionString = new Connect();
         public int Id { get; set; }
@@ -30,6 +30,8 @@ namespace Basic_Connectivity
         // GET ALL : Regions
         public List<Region> GetAll()
         {
+            var regions = new List<Region>();
+
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
             command.Connection = connection; //command koneksi ke database
@@ -47,24 +49,21 @@ namespace Basic_Connectivity
                     while (reader.Read())
                     { // membaca baris pada reader
                         // menampilkan data yang didapat ke console
-                        Console.WriteLine("Id: " + reader.GetInt32(0));
-                        Console.WriteLine("Name: " + reader.GetString(1));
+                        regions.Add(new Region
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        }) ;
                     }
-                }
-                else
-                { //pengkondisian jika tidak ditemukan row
-                    Console.WriteLine("No Rows found.");
-                }
+                    reader.Close(); //menutup reader
+                    connection.Close(); //menutup koneksi db
 
-                reader.Close(); //menutup reader
+                    return regions;
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Errpr: {e.Message}"); //menampilkan pesan jika error
-            }
-            finally
-            {
-                connection.Close(); //menutup koneksi db
             }
             return new List<Region>();
         }
@@ -72,6 +71,8 @@ namespace Basic_Connectivity
         // GET BY ID : Region
         public Region GetById(int id)
         {
+            var regionId = new Region();
+
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
             command.Connection = connection; //command koneksi ke database
@@ -93,24 +94,17 @@ namespace Basic_Connectivity
                     while (reader.Read()) // membaca baris pada reader
                     {
                         // menampilkan data yang didapat ke console
-                        Console.WriteLine("Id: " + reader.GetInt32(0));
-                        Console.WriteLine("Name: " + reader.GetString(1));
+                        regionId.Id = reader.GetInt32(0);
+                        regionId.Name = reader.GetString(1) ;
                     }
+                    reader.Close();
+                    connection.Close();
+                    return regionId;
                 }
-                else //pengkondisian jika tidak ditemukan row
-                {
-                    Console.WriteLine($"Region with id: {id} not found");
-                }
-
-                reader.Close(); //menutup reader
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error: {e.Message}"); //menampilkan pesan jika error
-            }
-            finally
-            {
-                connection.Close(); //menutup koneksi db
             }
             return new Region();
         }
@@ -144,29 +138,19 @@ namespace Basic_Connectivity
                     transaction.Commit(); //melakukan commit transaksi jika eksekusi berhasil
                     connection.Close(); //menutup koneksi db
 
-                    switch (result) //pengkondisian notifikasi
-                    {
-                        case >= 1: //case jika result lebih dari atau sama dengan 1
-                            Console.WriteLine("insert success");//menampilkan notifikasi berhasil
-                            break;
-                        default:
-                            Console.WriteLine("insert failed");//menampilkan notifikasi gagal
-                            break;
-                    }
+                    return result.ToString();
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    Console.WriteLine($"Error transaction: {e.Message}");
+                    return $"Error transaction: {e.Message}";
                 }
 
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error: {e.Message}");
+                return $"Error: {e.Message}";
             }
-            return "";
-
         }
 
         // Update : Region
@@ -203,28 +187,19 @@ namespace Basic_Connectivity
                     transaction.Commit(); //melakukan commit transaksi jika eksekusi berhasil
                     connection.Close(); //menutup koneksi db
 
-                    switch (result) //pengkondisian notifikasi
-                    {
-                        case >= 1: //case jika result lebih dari atau sama dengan 1
-                            Console.WriteLine("Update success");//menampilkan notifikasi berhasil
-                            break;
-                        default:
-                            Console.WriteLine("Upadate failed");//menampilkan notifikasi gagal
-                            break;
-                    }
+                    return result.ToString();
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback(); //melakukan rollback ketika error
-                    Console.WriteLine($"Error transaction: {e.Message}"); //menampilkan pesan error
+                    return $"Error transaction: {e.Message}"; //menampilkan pesan error
                 }
 
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error: {e.Message}"); //menampilkan pesan error
+                return $"Error: {e.Message}"; //menampilkan pesan error
             }
-            return "";
         }
 
         // Delete : Region
@@ -255,20 +230,12 @@ namespace Basic_Connectivity
                     transaction.Commit(); //melakukan commit transaksi jika eksekusi berhasil
                     connection.Close(); //menutup koneksi db
 
-                    switch (result) //pengkondisian notifikasi
-                    {
-                        case >= 1: //case jika result lebih dari atau sama dengan 1
-                            Console.WriteLine("Delete success");//menampilkan notifikasi berhasil
-                            break;
-                        default:
-                            Console.WriteLine("Delete failed");//menampilkan notifikasi gagal
-                            break;
-                    }
+                    return result.ToString();
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback(); //melakukan rollback ketika error
-                    Console.WriteLine($"Error transaction: {e.Message}"); //menampilkan pesan error
+                    return $"Error transaction: {e.Message}"; //menampilkan pesan error
                 }
 
             }
@@ -276,7 +243,6 @@ namespace Basic_Connectivity
             {
                 return $"Error: {e.Message}"; //menampilkan pesan error
             }
-            return "";
         }
     }
 }
