@@ -39,7 +39,7 @@ namespace Basic_Connectivity
             this.statProvince = statProvince;
             this.countryId = country;
         }
-        public string Delete(Locations locations)
+        public string Delete(int id)
         {
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
@@ -55,7 +55,7 @@ namespace Basic_Connectivity
                 {
                     SqlParameter pId = new SqlParameter(); //pendefinisian parameter baru
                     pId.ParameterName = "id"; //meng assign nama parameter
-                    pId.Value = locations.Id; //meng assign value parameter
+                    pId.Value = id; //meng assign value parameter
                     pId.SqlDbType = SqlDbType.Int; //meng assign tipe data parameter pada DB
                     command.Parameters.Add(pId); //command menambahkan parameter ke dalam sql query
 

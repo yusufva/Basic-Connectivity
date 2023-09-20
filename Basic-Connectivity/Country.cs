@@ -31,7 +31,7 @@ namespace Basic_Connectivity
         }
 
         //Delete : Countries
-        public string Delete(Country country)
+        public string Delete(string id)
         {
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
