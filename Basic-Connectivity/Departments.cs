@@ -10,8 +10,8 @@ namespace Basic_Connectivity
 {
     public class Departments : Interface<Departments, int>
     {
-        Connect connectionString = new Connect();
-        private static string tableName = "departments";
+        Connect connectionString = new Connect();  //mengambil connection String
+        private static string tableName = "departments"; //deklarasi nama tabel
         public int Id { get; set; }
         public string Name { get; set; }
         public int locationId { get; set; }

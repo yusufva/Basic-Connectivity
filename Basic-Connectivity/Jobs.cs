@@ -10,8 +10,8 @@ namespace Basic_Connectivity
 {
     public class Jobs : Interface<Jobs, string>
     {
-        Connect connectionString = new Connect();
-        private static string tableName = "jobs";
+        Connect connectionString = new Connect(); //mengambil connection String
+        private static string tableName = "jobs"; //deklarasi nama tabel
         public string id {  get; set; }
         public string title { get; set; }
         public int minSalary { get; set; }

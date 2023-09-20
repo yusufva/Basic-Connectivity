@@ -10,7 +10,7 @@ namespace Basic_Connectivity
 {
     public class Region : Interface<Region,int>
     {
-        private static Connect connectionString = new Connect();
+        private static Connect connectionString = new Connect(); //mengambil connection String
         public int Id { get; set; }
         public string Name { get; set; }
 

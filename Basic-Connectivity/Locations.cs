@@ -12,8 +12,8 @@ namespace Basic_Connectivity
 {
     public class Locations : Interface<Locations, int>
     {
-        Connect connectionString = new Connect();
-        private static string tableName = "locations";
+        Connect connectionString = new Connect(); //mengambil connection String
+        private static string tableName = "locations"; //deklarasi nama tabel
         public int Id {  get; set; }
         public string streetAddress { get; set; }
         public string postalCode { get; set; }
@@ -252,7 +252,7 @@ namespace Basic_Connectivity
                     SqlParameter pId = new SqlParameter(); //meng assign parameter baru
                     pId.ParameterName = "Id"; // meng assign nama parameter pada sql
                     pId.Value = locations.Id; //meng assign nilai parameter
-                    pId.SqlDbType = SqlDbType.Char; //meng assign tipe data parameter pada db
+                    pId.SqlDbType = SqlDbType.Int; //meng assign tipe data parameter pada db
                     command.Parameters.Add(pId); //command menambahkan parameter pada query
 
                     SqlParameter pName = new SqlParameter(); //meng assign parameter baru

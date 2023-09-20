@@ -9,11 +9,11 @@ namespace Basic_Connectivity
 {
     public class History
     {
-        Connect connectionString = new Connect();
-        private static string tableName = "histories";
+        Connect connectionString = new Connect(); //mengambil connection String
+        private static string tableName = "histories"; //deklarasi nama tabel
 
         public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }
+        public DateTime? endDate { get; set; }
         public int employeeId {  get; set; }
         public int deparmentId { get; set; }
         public string jobId { get; set; }

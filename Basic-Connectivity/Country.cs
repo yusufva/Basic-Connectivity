@@ -11,8 +11,8 @@ namespace Basic_Connectivity
 {
     public class Country : Interface<Country, string>
     {
-        private static Connect connectionString = new Connect();
-        private static string tableName = "countries";
+        private static Connect connectionString = new Connect(); //mengambil connection String
+        private static string tableName = "countries"; //deklarasi nama tabel
         public string Id { get; set; }
         public string Name { get; set; }
         public int RegionId { get; set; }

@@ -9,8 +9,8 @@ namespace Basic_Connectivity
 {
     public class Employee : Interface<Employee, int>
     {
-        Connect connectionString = new Connect();
-        private static string tableName = "employees";
+        Connect connectionString = new Connect(); //mengambil connection String
+        private static string tableName = "employees"; //deklarasi nama tabel
 
         public int id {  get; set; }
         public string firstName { get; set; }
