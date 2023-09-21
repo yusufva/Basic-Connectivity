@@ -9,22 +9,24 @@ namespace Basic_Connectivity
 {
     public class EmployeeJoinsVM
     {
+        //pengefinisian property
         public int employeeId { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public string fullName { get; set; }
         public string email { get; set; }
         public string phoneNumber { get; set; }
         public DateTime hireDate { get; set; }
         public int? salary { get; set; }
-        public decimal commisionPct { get; set; }
+        public string streetAddress { get; set; }
         public int? managerId { get; set; }
         public string departmentName { get; set; }
         public string locations { get; set; }
         public string countryName{ get; set; }
         public string regionName{ get; set; }
+        
+        //melakukan override general method
         public override string ToString()
         {
-            return $"{employeeId} - {firstName} - {lastName} - {email} - {phoneNumber} - {hireDate} - {salary} - {commisionPct} - {managerId} - {departmentName} - {locations} - {countryName} - {regionName}";
+            return $"{employeeId} - {fullName} - {email} - {phoneNumber} - {hireDate} - {salary} - {streetAddress} - {managerId} - {departmentName} - {locations} - {countryName} - {regionName}";
         }
     }
 }

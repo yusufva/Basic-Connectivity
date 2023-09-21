@@ -103,21 +103,21 @@
                         .Join(getDepartment, ed => ed.departmentId, d => d.Id, (ed, d) => new {ed, d}) //melakukan join LinQ getEmployee dengan getDepartment
                         .Join(getLocations, el => el.d.locationId, l => l.Id, (el, l) => new {el.ed, el.d, l}) //melakukan join LinQ tambahan dengan tabel locations
                         .Join(getCountry, ec => ec.l.countryId, c => c.Id, (ec, c) => new {ec.ed, ec.d, ec.l, c}) //melakukan join LinQ selanjutnya dengan tabel country
-                        .Join(GetRegion, er => er.l.Id, r => r.Id, (er, r) => new //melanjutkan join dengan tabel region kemudian mendefinisikan objek output
+                        .Join(GetRegion, er => er.l.Id, r => r.Id, (er, r) => new EmployeeJoinsVM //melanjutkan join dengan tabel region kemudian mendefinisikan objek output
                         {
                             employeeId =er.ed.id, //mendefinisikan employee id yang diambil dari hasil join
                             fullName = er.ed.firstName + " " + er.ed.lastName, //mendefinisikan fullname yang diambil dari hasil join
-                            er.ed.email, //mendefinisikan email yang diambil dari hasil join
-                            er.ed.phoneNumber, //mendefinisikan phone number yang diambil dari hasil join
-                            er.ed.salary, //mendefinisikan salary yang diambil dari hasil join
+                            email = er.ed.email, //mendefinisikan email yang diambil dari hasil join
+                            phoneNumber = er.ed.phoneNumber, //mendefinisikan phone number yang diambil dari hasil join
+                            salary = er.ed.salary, //mendefinisikan salary yang diambil dari hasil join
                             departmentName = er.d.Name, //mendefinisikan department name yang diambil dari hasil join
-                            er.l.streetAddress, //mendefinisikan location street address yang diambil dari hasil join
+                            streetAddress = er.l.streetAddress, //mendefinisikan location street address yang diambil dari hasil join
                             countryName = er.c.Name, //mendefinisikan country name yang diambil dari hasil join
                             regionName = r.Name //mendefinisikan region name yang diambil dari hasil join
                         }).ToList(); //mengubah object yang dihasilkan menjadi list
                     GeneralMenu.List(resultJoin, "Employee Detail"); //menampilkan output 
                 }
-                else if (input == "6") //menu 5
+                else if (input == "6") //menu 6
                 {
                     //instansiasi objek yang dibutuhkan
                     var employee1 = new Employee();
@@ -131,7 +131,7 @@
                         .Join(getDepartment1, e => e.departmentId, d => d.Id, (e, d) => new {e, d}) //melakukan join LinQ getEmployee dengan getDepartment
                         .GroupBy(ed => ed.d.Name) //melakukan group by hasil join dengan department name
                         .Where(grouped => grouped.Count() > 3) //memberikan kondisi dimana hasil yang ditampilkan ketika karyawan > 3
-                        .Select(grouped => new //melakukan select untuk menampilkan data yang diambil
+                        .Select(grouped => new DepartmentSummaryVM //melakukan select untuk menampilkan data yang diambil
                         {
                             departmentName = grouped.Key, //mendefinisikan department name yang diambil dari hasil LinQ
                             totalEmployee = grouped.Count(), //mendefinisikan total employee yang diambil dari hasil LinQ
