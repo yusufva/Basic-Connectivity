@@ -15,7 +15,9 @@
                 Console.WriteLine("2. Insert");
                 Console.WriteLine("3. Update");
                 Console.WriteLine("4. Delete");
-                Console.WriteLine("5. exit");
+                Console.WriteLine("5. Employee Detail");
+                Console.WriteLine("6. Department Summary");
+                Console.WriteLine("7. exit");
                 
                 Console.Write("Enter your choice: ");
                 var input = Console.ReadLine(); //input pemilihan menu
@@ -82,6 +84,64 @@
 
                 }
                 else if (input == "5") //menu 5
+                {
+                    //instansiasi objek yang dibutuhkan
+                    var employee = new Employee();
+                    var department = new Departments();
+                    var locations = new Locations();
+                    var country = new Country();
+                    var Region = new Region();
+
+                    //pendeklarasian variabel untuk mengambil smua data
+                    var getEmployee = employee.GetAll();
+                    var getDepartment = department.GetAll();
+                    var getLocations = locations.GetAll();
+                    var getCountry = country.GetAll();
+                    var GetRegion = Region.GetAll();
+
+                    var resultJoin = getEmployee //memulai LinQ dengan getEmployee
+                        .Join(getDepartment, ed => ed.departmentId, d => d.Id, (ed, d) => new {ed, d}) //melakukan join LinQ getEmployee dengan getDepartment
+                        .Join(getLocations, el => el.d.locationId, l => l.Id, (el, l) => new {el.ed, el.d, l}) //melakukan join LinQ tambahan dengan tabel locations
+                        .Join(getCountry, ec => ec.l.countryId, c => c.Id, (ec, c) => new {ec.ed, ec.d, ec.l, c}) //melakukan join LinQ selanjutnya dengan tabel country
+                        .Join(GetRegion, er => er.l.Id, r => r.Id, (er, r) => new //melanjutkan join dengan tabel region kemudian mendefinisikan objek output
+                        {
+                            employeeId =er.ed.id, //mendefinisikan employee id yang diambil dari hasil join
+                            fullName = er.ed.firstName + " " + er.ed.lastName, //mendefinisikan fullname yang diambil dari hasil join
+                            er.ed.email, //mendefinisikan email yang diambil dari hasil join
+                            er.ed.phoneNumber, //mendefinisikan phone number yang diambil dari hasil join
+                            er.ed.salary, //mendefinisikan salary yang diambil dari hasil join
+                            departmentName = er.d.Name, //mendefinisikan department name yang diambil dari hasil join
+                            er.l.streetAddress, //mendefinisikan location street address yang diambil dari hasil join
+                            countryName = er.c.Name, //mendefinisikan country name yang diambil dari hasil join
+                            regionName = r.Name //mendefinisikan region name yang diambil dari hasil join
+                        }).ToList(); //mengubah object yang dihasilkan menjadi list
+                    GeneralMenu.List(resultJoin, "Employee Detail"); //menampilkan output 
+                }
+                else if (input == "6") //menu 5
+                {
+                    //instansiasi objek yang dibutuhkan
+                    var employee1 = new Employee();
+                    var department1 = new Departments();
+
+                    //pendeklarasian variabel untuk mengambil smua data
+                    var getEmployee1 = employee1.GetAll();
+                    var getDepartment1 = department1.GetAll();
+
+                    var resultJoin1 = getEmployee1 //memulai LinQ dengan getEmployee
+                        .Join(getDepartment1, e => e.departmentId, d => d.Id, (e, d) => new {e, d}) //melakukan join LinQ getEmployee dengan getDepartment
+                        .GroupBy(ed => ed.d.Name) //melakukan group by hasil join dengan department name
+                        .Where(grouped => grouped.Count() > 3) //memberikan kondisi dimana hasil yang ditampilkan ketika karyawan > 3
+                        .Select(grouped => new //melakukan select untuk menampilkan data yang diambil
+                        {
+                            departmentName = grouped.Key, //mendefinisikan department name yang diambil dari hasil LinQ
+                            totalEmployee = grouped.Count(), //mendefinisikan total employee yang diambil dari hasil LinQ
+                            minSalary = grouped.Min(ed => ed.e.salary), //mendefinisikan min salary yang diambil dari hasil LinQ
+                            maxSalary = grouped.Max(ed => ed.e.salary), //mendefinisikan max salary yang diambil dari hasil LinQ
+                            averageSalary = grouped.Average(ed => ed.e.salary) //mendefinisikan average salary yang diambil dari hasil LinQ
+                        }).ToList(); //mengubah object yang dihasilkan menjadi list
+                    GeneralMenu.List(resultJoin1, "Department Summary"); //menampilkan output
+                }
+                else if (input == "7") //menu 5
                 {
                     choice = false;
                 }
