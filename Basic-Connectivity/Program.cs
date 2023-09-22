@@ -1,4 +1,6 @@
-﻿namespace Basic_Connectivity
+﻿using Basic_Connectivity.Views;
+
+namespace Basic_Connectivity
 {
     internal class Program
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
     public interface Interface<T, TId>
     {

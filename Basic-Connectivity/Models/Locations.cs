@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using System.Diagnostics.Metrics;
 using System.Xml.Linq;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
     public class Locations : Interface<Locations, int>
     {
         Connect connectionString = new Connect(); //mengambil connection String
         private static string tableName = "locations"; //deklarasi nama tabel
-        public int Id {  get; set; }
+        public int Id { get; set; }
         public string streetAddress { get; set; }
         public string postalCode { get; set; }
         public string city { get; set; }
@@ -28,22 +28,22 @@ namespace Basic_Connectivity
 
         public Locations()
         {
-            this.Id = 0;
-            this.streetAddress = string.Empty;
-            this.postalCode = string.Empty;
-            this.city = string.Empty;
-            this.statProvince = string.Empty;
-            this.countryId = string.Empty;
+            Id = 0;
+            streetAddress = string.Empty;
+            postalCode = string.Empty;
+            city = string.Empty;
+            statProvince = string.Empty;
+            countryId = string.Empty;
         }
 
         public Locations(int id, string streetAddress, string postalCode, string city, string statProvince, string country)
         {
-            this.Id = id;
+            Id = id;
             this.streetAddress = streetAddress;
             this.postalCode = postalCode;
             this.city = city;
             this.statProvince = statProvince;
-            this.countryId = country;
+            countryId = country;
         }
         public string Delete(int id)
         {

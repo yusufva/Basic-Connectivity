@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
     public class Country : Interface<Country, string>
     {
@@ -21,7 +21,8 @@ namespace Basic_Connectivity
             return $"{Id} - {Name} - {RegionId}";
         }
 
-        public Country() { 
+        public Country()
+        {
             Id = string.Empty;
             Name = string.Empty;
             RegionId = 0;
@@ -188,7 +189,7 @@ namespace Basic_Connectivity
                     pName.Value = country.Name; //meng assign nilai parameter
                     pName.SqlDbType = SqlDbType.VarChar; //meng assign tipe data parameter pada db
                     command.Parameters.Add(pName); //command menambahkan parameter pada query
-                    
+
                     SqlParameter pRegionId = new SqlParameter(); //meng assign parameter baru
                     pRegionId.ParameterName = "regionId"; // meng assign nama parameter pada sql
                     pRegionId.Value = country.RegionId; //meng assign nilai parameter

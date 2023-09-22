@@ -6,15 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
-    public class Region : Interface<Region,int>
+    public class Region : Interface<Region, int>
     {
         private static Connect connectionString = new Connect(); //mengambil connection String
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Region() { 
+        public Region()
+        {
             Id = 0;
             Name = null;
         }
@@ -56,7 +57,7 @@ namespace Basic_Connectivity
                         {
                             Id = reader.GetInt32(0),
                             Name = reader.GetString(1)
-                        }) ;
+                        });
                     }
                     reader.Close(); //menutup reader
                     connection.Close(); //menutup koneksi db
@@ -98,7 +99,7 @@ namespace Basic_Connectivity
                     {
                         // menampilkan data yang didapat ke console
                         regionId.Id = reader.GetInt32(0);
-                        regionId.Name = reader.GetString(1) ;
+                        regionId.Name = reader.GetString(1);
                     }
                     reader.Close();
                     connection.Close();

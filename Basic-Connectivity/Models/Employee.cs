@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
     public class Employee : Interface<Employee, int>
     {
         Connect connectionString = new Connect(); //mengambil connection String
         private static string tableName = "employees"; //deklarasi nama tabel
 
-        public int id {  get; set; }
+        public int id { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string email { get; set; }
@@ -31,14 +31,14 @@ namespace Basic_Connectivity
 
         public Employee()
         {
-            this.id = 0;
-            this.firstName = string.Empty;
-            this.lastName = string.Empty;
-            this.email = string.Empty;
-            this.phoneNumber = string.Empty;
-            this.departmentId = 0;
-            this.jobId = string.Empty;
-            this.departmentId = 0;
+            id = 0;
+            firstName = string.Empty;
+            lastName = string.Empty;
+            email = string.Empty;
+            phoneNumber = string.Empty;
+            departmentId = 0;
+            jobId = string.Empty;
+            departmentId = 0;
         }
 
         public Employee(int id, string firstName, string lastName, string email, string phoneNumber, DateTime hireDate, int salary, decimal commisionPct, int managerId, string jobId, int departmentId)
@@ -123,9 +123,9 @@ namespace Basic_Connectivity
                             email = reader.GetString(3),
                             phoneNumber = reader.GetString(4),
                             hireDate = reader.GetDateTime(5),
-                            salary = reader.IsDBNull(6) ? (int?)null : reader.GetInt32(6),
+                            salary = reader.IsDBNull(6) ? null : reader.GetInt32(6),
                             commisionPct = reader.GetDecimal(7),
-                            managerId = reader.IsDBNull(8) ? (int?)null : reader.GetInt32(8),
+                            managerId = reader.IsDBNull(8) ? null : reader.GetInt32(8),
                             jobId = reader.GetString(9),
                             departmentId = reader.GetInt32(10),
                         });

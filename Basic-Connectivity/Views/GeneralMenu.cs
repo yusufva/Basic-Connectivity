@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Views
 {
     public class GeneralMenu
     {
@@ -29,7 +29,8 @@ namespace Basic_Connectivity
             {
                 Console.WriteLine($"Success, {value} Row Affected");
             }
-            else {
+            else
+            {
                 Console.WriteLine("Failed to modify data");
             }
             Console.WriteLine("---------------");

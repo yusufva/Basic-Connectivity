@@ -1,53 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
-    public class History
+    public class Departments : Interface<Departments, int>
     {
-        Connect connectionString = new Connect(); //mengambil connection String
-        private static string tableName = "histories"; //deklarasi nama tabel
-
-        public DateTime startDate { get; set; }
-        public DateTime? endDate { get; set; }
-        public int employeeId {  get; set; }
-        public int deparmentId { get; set; }
-        public string jobId { get; set; }
+        Connect connectionString = new Connect();  //mengambil connection String
+        private static string tableName = "departments"; //deklarasi nama tabel
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int locationId { get; set; }
+        public int managerId { get; set; }
 
         public override string ToString()
         {
-            return $"{startDate} - {endDate} - {employeeId} - {deparmentId} - {jobId}";
+            return $"{Id} - {Name} - {locationId} - {managerId}";
         }
 
-        public History()
+        public Departments()
         {
-            startDate = DateTime.Now;
-            endDate = DateTime.Now;
-            employeeId = 0;
-            deparmentId = 0;
-            jobId = string.Empty;
+            Id = 0;
+            Name = string.Empty;
+            managerId = 0;
+            locationId = 0;
         }
 
-        public History(DateTime startDate, DateTime endDate, int employeeId, int deparmentId, string jobId)
+        public Departments(int id, string name, int locationId, int managerId)
         {
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.employeeId = employeeId;
-            this.deparmentId = deparmentId;
-            this.jobId = jobId;
+            Id = id;
+            Name = name;
+            this.locationId = locationId;
+            this.managerId = managerId;
         }
 
-        public string Delete(DateTime date)
+        public string Delete(int id)
         {
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
 
             command.Connection = connection; //command koneksi ke database
-            command.CommandText = $"DELETE FROM {tableName} WHERE start_date = @startDate"; //command sql query yang akan dijalankan
+            command.CommandText = $"DELETE FROM {tableName} WHERE id = @id"; //command sql query yang akan dijalankan
 
             try
             {
@@ -55,7 +52,7 @@ namespace Basic_Connectivity
                 using SqlTransaction transaction = connection.BeginTransaction(); //mendefinisikan transaksi
                 try
                 {
-                    command.Parameters.Add(new SqlParameter("@startDate", date)); //command menambahkan parameter ke dalam sql query
+                    command.Parameters.Add(new SqlParameter("@id", id)); //command menambahkan parameter ke dalam sql query
 
                     command.Transaction = transaction; //command memulai transaksi
 
@@ -79,9 +76,9 @@ namespace Basic_Connectivity
             }
         }
 
-        public List<History> GetAll()
+        public List<Departments> GetAll()
         {
-            var histories = new List<History>();
+            var departments = new List<Departments>();
 
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
@@ -100,36 +97,35 @@ namespace Basic_Connectivity
                     while (reader.Read())
                     { // membaca baris pada reader
                         // memasukkan data setiap department kedalam list
-                        histories.Add(new History
+                        departments.Add(new Departments
                         {
-                            startDate = reader.GetDateTime(0),
-                            employeeId = reader.GetInt32(1),
-                            endDate = reader.GetDateTime(2),
-                            deparmentId = reader.GetInt32(3),
-                            jobId = reader.GetString(4)
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            locationId = reader.GetInt32(2),
+                            managerId = reader.GetInt32(3)
                         });
                     }
                     reader.Close(); //menutup reader
                     connection.Close(); //menutup koneksi db
 
-                    return histories;
+                    return departments;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Errpr: {e.Message}"); //menampilkan pesan jika error
             }
-            return new List<History>();
+            return new List<Departments>();
         }
 
-        public List<History> GetById(int id)
+        public Departments GetById(int id)
         {
-            var histories = new List<History>();
+            var department = new Departments();
 
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
             command.Connection = connection; //command koneksi ke database
-            command.CommandText = $"SELECT * FROM {tableName} WHERE employee_id = @id"; //command sql query yang akan dijalankan
+            command.CommandText = $"SELECT * FROM {tableName} WHERE id = @id"; //command sql query yang akan dijalankan
             command.Parameters.Add(new SqlParameter("@id", id)); //command menambahkan parameter ke dalam sql query
 
             try
@@ -138,41 +134,36 @@ namespace Basic_Connectivity
 
                 SqlDataReader reader = command.ExecuteReader(); //mengeksekusi kode dan menyimpan pada variabel reader
 
-                if (reader.HasRows)
-                { //pengkondisian jika reader memiliki baris
-                    //output the column headers
-                    while (reader.Read())
-                    { // membaca baris pada reader
-                        // memasukkan data setiap department kedalam list
-                        histories.Add(new History
-                        {
-                            startDate = reader.GetDateTime(0),
-                            employeeId = reader.GetInt32(1),
-                            endDate = reader.GetDateTime(2),
-                            deparmentId = reader.GetInt32(3),
-                            jobId = reader.GetString(4)
-                        });
+                if (reader.HasRows) //pengkondisian jika reader memiliki baris
+                {
+                    while (reader.Read()) // membaca baris pada reader
+                    {
+                        // menampilkan data yang didapat ke console
+                        Id = reader.GetInt32(0);
+                        Name = reader.GetString(1);
+                        locationId = reader.GetInt32(2);
+                        managerId = reader.GetInt32(3);
                     }
-                    reader.Close(); //menutup reader
-                    connection.Close(); //menutup koneksi db
-
-                    return histories;
+                    reader.Close();
+                    connection.Close();
+                    return department;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error: {e.Message}"); //menampilkan pesan jika error
             }
-            return new List<History>();
+            return new Departments();
         }
 
-        public string Insert(History history)
+        public string Insert(Departments departments)
         {
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
 
             command.Connection = connection; //command koneksi ke database
-            command.CommandText = $"INSERT INTO {tableName} VALUES (@startDate, @employeeId, @endDate, @departmentId, @jobId)"; //command sql query yang akan dijalankan
+            command.CommandText = $"INSERT INTO {tableName} VALUES (@id, @name, @locationId, @managerId)"; //command sql query yang akan dijalankan
+
 
             try
             {
@@ -180,11 +171,11 @@ namespace Basic_Connectivity
                 using SqlTransaction transaction = connection.BeginTransaction(); //mendefinisikan transaksi
                 try
                 {
-                    command.Parameters.Add(new SqlParameter("@startDate", history.startDate)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@employeeId", history.employeeId)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@endDate", history.endDate)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@departmentId", history.deparmentId)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@jobId", history.jobId)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@id", departments.Id)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@name", departments.Name)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@locationId", departments.locationId)); //command menambahkan parameter pada query
+
+                    command.Parameters.Add(new SqlParameter("@managerId", departments.managerId)); //command menambahkan parameter pada query
 
                     command.Transaction = transaction; //command memulai transaksi
 
@@ -207,13 +198,14 @@ namespace Basic_Connectivity
             }
         }
 
-        public string Update(History history)
+        public string Update(Departments departments)
         {
             using var connection = new SqlConnection(connectionString.ConnectionString); //variabel untuk koneksi database
             using var command = new SqlCommand(); //variabel command untuk menjalankan command ke db
 
             command.Connection = connection; //command koneksi ke database
-            command.CommandText = $"UPDATE {tableName} SET end_date = @endDate WHERE employee_id = @employeeId AND start_date = @startDate)"; //command sql query yang akan dijalankan
+            command.CommandText = $"UPDATE {tableName} SET name = @name, location_id = @locationid, manager_id = @managerId WHERE id = @id)"; //command sql query yang akan dijalankan
+
 
             try
             {
@@ -221,9 +213,10 @@ namespace Basic_Connectivity
                 using SqlTransaction transaction = connection.BeginTransaction(); //mendefinisikan transaksi
                 try
                 {
-                    command.Parameters.Add(new SqlParameter("@startDate", history.startDate)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@employeeId", history.employeeId)); //command menambahkan parameter pada query
-                    command.Parameters.Add(new SqlParameter("@endDate", history.endDate)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@id", departments.Id)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@name", departments.Name)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@locationId", departments.locationId)); //command menambahkan parameter pada query
+                    command.Parameters.Add(new SqlParameter("@managerId", departments.managerId)); //command menambahkan parameter pada query
 
                     command.Transaction = transaction; //command memulai transaksi
 

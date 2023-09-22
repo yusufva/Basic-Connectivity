@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Basic_Connectivity
+namespace Basic_Connectivity.Models
 {
     public class Jobs : Interface<Jobs, string>
     {
         Connect connectionString = new Connect(); //mengambil connection String
         private static string tableName = "jobs"; //deklarasi nama tabel
-        public string id {  get; set; }
+        public string id { get; set; }
         public string title { get; set; }
         public int minSalary { get; set; }
         public int maxSalary { get; set; }
@@ -24,10 +24,10 @@ namespace Basic_Connectivity
 
         public Jobs()
         {
-            this.id = string.Empty;
-            this.title = string.Empty;
-            this.minSalary = 0;
-            this.maxSalary = 0;
+            id = string.Empty;
+            title = string.Empty;
+            minSalary = 0;
+            maxSalary = 0;
         }
 
         public Jobs(string id, string title, int minSalary, int maxSalary)
