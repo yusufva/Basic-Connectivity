@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Basic_Connectivity.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity.Views
+namespace Basic_Connectivity.ViewModels
 {
-    public class DepartmentSummaryVM
+    public class DepartmentSummaryVM 
     {
         //pengefinisian property
         public string departmentName { get; set; }

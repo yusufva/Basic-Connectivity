@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Basic_Connectivity.Views
+namespace Basic_Connectivity.ViewModels
 {
     public class EmployeeJoinsVM
     {

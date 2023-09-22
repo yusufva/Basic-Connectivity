@@ -64,6 +64,8 @@ namespace Basic_Connectivity.Models
 
                     return regions;
                 }
+                reader.Close(); //menutup reader
+                connection.Close(); //menutup koneksi db
             }
             catch (Exception e)
             {

@@ -1,4 +1,7 @@
-﻿using Basic_Connectivity.Views;
+﻿using Basic_Connectivity.Models;
+using Basic_Connectivity.ViewModels;
+using Basic_Connectivity.Controllers;
+using Basic_Connectivity.Views;
 
 namespace Basic_Connectivity
 {
@@ -102,12 +105,12 @@ namespace Basic_Connectivity
                     var GetRegion = Region.GetAll();
 
                     var resultJoin = getEmployee //memulai LinQ dengan getEmployee
-                        .Join(getDepartment, ed => ed.departmentId, d => d.Id, (ed, d) => new {ed, d}) //melakukan join LinQ getEmployee dengan getDepartment
-                        .Join(getLocations, el => el.d.locationId, l => l.Id, (el, l) => new {el.ed, el.d, l}) //melakukan join LinQ tambahan dengan tabel locations
-                        .Join(getCountry, ec => ec.l.countryId, c => c.Id, (ec, c) => new {ec.ed, ec.d, ec.l, c}) //melakukan join LinQ selanjutnya dengan tabel country
+                        .Join(getDepartment, ed => ed.departmentId, d => d.Id, (ed, d) => new { ed, d }) //melakukan join LinQ getEmployee dengan getDepartment
+                        .Join(getLocations, el => el.d.locationId, l => l.Id, (el, l) => new { el.ed, el.d, l }) //melakukan join LinQ tambahan dengan tabel locations
+                        .Join(getCountry, ec => ec.l.countryId, c => c.Id, (ec, c) => new { ec.ed, ec.d, ec.l, c }) //melakukan join LinQ selanjutnya dengan tabel country
                         .Join(GetRegion, er => er.l.Id, r => r.Id, (er, r) => new EmployeeJoinsVM //melanjutkan join dengan tabel region kemudian mendefinisikan objek output
                         {
-                            employeeId =er.ed.id, //mendefinisikan employee id yang diambil dari hasil join
+                            employeeId = er.ed.id, //mendefinisikan employee id yang diambil dari hasil join
                             fullName = er.ed.firstName + " " + er.ed.lastName, //mendefinisikan fullname yang diambil dari hasil join
                             email = er.ed.email, //mendefinisikan email yang diambil dari hasil join
                             phoneNumber = er.ed.phoneNumber, //mendefinisikan phone number yang diambil dari hasil join
@@ -117,7 +120,7 @@ namespace Basic_Connectivity
                             countryName = er.c.Name, //mendefinisikan country name yang diambil dari hasil join
                             regionName = r.Name //mendefinisikan region name yang diambil dari hasil join
                         }).ToList(); //mengubah object yang dihasilkan menjadi list
-                    GeneralMenu.List(resultJoin, "Employee Detail"); //menampilkan output 
+                    //RegionView.List(resultJoin, "Employee Detail"); //menampilkan output 
                 }
                 else if (input == "6") //menu 6
                 {
@@ -130,7 +133,7 @@ namespace Basic_Connectivity
                     var getDepartment1 = department1.GetAll();
 
                     var resultJoin1 = getEmployee1 //memulai LinQ dengan getEmployee
-                        .Join(getDepartment1, e => e.departmentId, d => d.Id, (e, d) => new {e, d}) //melakukan join LinQ getEmployee dengan getDepartment
+                        .Join(getDepartment1, e => e.departmentId, d => d.Id, (e, d) => new { e, d }) //melakukan join LinQ getEmployee dengan getDepartment
                         .GroupBy(ed => ed.d.Name) //melakukan group by hasil join dengan department name
                         .Where(grouped => grouped.Count() > 3) //memberikan kondisi dimana hasil yang ditampilkan ketika karyawan > 3
                         .Select(grouped => new DepartmentSummaryVM //melakukan select untuk menampilkan data yang diambil
@@ -141,7 +144,7 @@ namespace Basic_Connectivity
                             maxSalary = grouped.Max(ed => ed.e.salary), //mendefinisikan max salary yang diambil dari hasil LinQ
                             averageSalary = grouped.Average(ed => ed.e.salary) //mendefinisikan average salary yang diambil dari hasil LinQ
                         }).ToList(); //mengubah object yang dihasilkan menjadi list
-                    GeneralMenu.List(resultJoin1, "Department Summary"); //menampilkan output
+                    //DepartmentSummaryVM.List(resultJoin1, "Department Summary"); //menampilkan output
                 }
                 else if (input == "7") //menu 5
                 {
@@ -161,38 +164,40 @@ namespace Basic_Connectivity
             {
                 case "1":
                     var region = new Region();
-                    var regions = region.GetAll();
-                    GeneralMenu.List(regions, "regions");
+                    var regionView = new RegionView();
+                    var regionController = new RegionController(region, regionView);
+                    regionController.GetAll();
+                    /*GeneralView.List(regions, "regions");*/
                     break;
                 case "2":
                     var country = new Country();
                     var countries = country.GetAll();
-                    GeneralMenu.List(countries, "countries");
+                    /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
                     var location = new Locations();
                     var locations = location.GetAll();
-                    GeneralMenu.List(locations, "locations");
+                    /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
                     var department = new Departments();
                     var departments = department.GetAll();
-                    GeneralMenu.List(departments, "departments");
+                    /*GeneralView.List(departments, "departments");*/
                     break;
                 case "5":
                     var job = new Jobs();
                     var jobs = job.GetAll();
-                    GeneralMenu.List(jobs, "jobs");
+                    /*GeneralView.List(jobs, "jobs");*/
                     break;
                 case "6":
                     var history = new History();
                     var histories = history.GetAll();
-                    GeneralMenu.List(histories, "histories");
+                    //GeneralView.List(histories, "histories");
                     break;
                 case "7":
                     var employee = new Employee();
                     var employees = employee.GetAll();
-                    GeneralMenu.List(employees, "employees");
+                    /*GeneralView.List(employees, "employees");*/
                     break;
                 case "8":
                     return false;
@@ -213,7 +218,7 @@ namespace Basic_Connectivity
                     var region = new Region();
                     region.Name = regionName;
                     var regions = region.Insert(region);
-                    GeneralMenu.Message(regions);
+                    /*GeneralView.Message(regions);*/
                     break;
                 case "2":
                     Console.Write("Input Country Id (2 character): ");
@@ -225,7 +230,7 @@ namespace Basic_Connectivity
                     int.TryParse(Console.ReadLine(), out countryRegionId);    
                     var country = new Country(countryId, countryName,countryRegionId);
                     var countries = country.Insert(country);
-                    GeneralMenu.Message(countries);
+                    /*GeneralView.Message(countries);*/
                     break;
                 case "3":
                     Console.Write("Input Locations Id (number): ");
@@ -243,7 +248,7 @@ namespace Basic_Connectivity
                     var locationCountryId = Console.ReadLine();
                     var location = new Locations(locationsId, locationStreet, locationPostal, locationCity, locationProvince, locationCountryId);
                     var locations = location.Insert(location);
-                    GeneralMenu.Message(locations);
+                    /*GeneralView.Message(locations);*/
                     break;
                 case "4":
                     Console.Write("Input Department Id (number): ");
@@ -259,7 +264,7 @@ namespace Basic_Connectivity
                     int.TryParse(Console.ReadLine(), out departmentManager);
                     var department = new Departments(departmentsId, departmentName, departmentLocation, departmentManager);
                     var departments = department.Insert(department);
-                    GeneralMenu.Message(departments);
+                    /*GeneralView.Message(departments);*/
                     break;
                 case "5":
                     Console.Write("Input Jobs Id (2 character): ");
@@ -274,7 +279,7 @@ namespace Basic_Connectivity
                     int.TryParse(Console.ReadLine(), out jobsMaxSalary);
                     var job = new Jobs(jobsId, jobsTitle, jobsMinSalary, jobsMaxSalary);
                     var jobs = job.Insert(job);
-                    GeneralMenu.Message(jobs);
+                    /*GeneralView.Message(jobs);*/
                     break;
                 case "6":
                     Console.Write("Input Employee Id (Number): ");
@@ -289,7 +294,7 @@ namespace Basic_Connectivity
                     var date = new DateTime();
                     var history = new History(startDate, date, historyEmployeeId, historyDepartment, historyJob);
                     var histories = history.Insert(history);
-                    GeneralMenu.Message(histories);
+                    /*GeneralView.Message(histories);*/
                     break;
                 case "7":
                     Console.Write("Input Employee Id (Number): ");
@@ -319,7 +324,7 @@ namespace Basic_Connectivity
                     int.TryParse(Console.ReadLine(), out employeeDepartment);
                     var employee = new Employee(employeeId,employeeFirst,employeeLast,employeeEmail,employeePhone,DateTime.Now,employeeSalary, employeePct, employeeManager, employeeJob, employeeDepartment);
                     var employees = employee.Insert(employee);
-                    GeneralMenu.Message(employees);
+                    /*GeneralView.Message(employees);*/
                     break;
                 case "8":
                     return false;
@@ -336,37 +341,37 @@ namespace Basic_Connectivity
                 case "1":
                     var region = new Region();
                     var regions = region.GetAll();
-                    GeneralMenu.List(regions, "regions");
+                    /*GeneralView.List(regions, "regions");*/
                     break;
                 case "2":
                     var country = new Country();
                     var countries = country.GetAll();
-                    GeneralMenu.List(countries, "countries");
+                    /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
                     var location = new Locations();
                     var locations = location.GetAll();
-                    GeneralMenu.List(locations, "locations");
+                    /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
                     var department = new Departments();
                     var departments = department.GetAll();
-                    GeneralMenu.List(departments, "departments");
+                    /*GeneralView.List(departments, "departments");*/
                     break;
                 case "5":
                     var job = new Jobs();
                     var jobs = job.GetAll();
-                    GeneralMenu.List(jobs, "jobs");
+                    /*GeneralView.List(jobs, "jobs");*/
                     break;
                 case "6":
                     var history = new History();
                     var histories = history.GetAll();
-                    GeneralMenu.List(histories, "histories");
+                    /*GeneralView.List(histories, "histories");*/
                     break;
                 case "7":
                     var employee = new Employee();
                     var employees = employee.GetAll();
-                    GeneralMenu.List(employees, "employees");
+                    /*GeneralView.List(employees, "employees");*/
                     break;
                 case "8":
                     return false;
@@ -383,37 +388,37 @@ namespace Basic_Connectivity
                 case "1":
                     var region = new Region();
                     var regions = region.GetAll();
-                    GeneralMenu.List(regions, "regions");
+                    /*GeneralView.List(regions, "regions");*/
                     break;
                 case "2":
                     var country = new Country();
                     var countries = country.GetAll();
-                    GeneralMenu.List(countries, "countries");
+                    /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
                     var location = new Locations();
                     var locations = location.GetAll();
-                    GeneralMenu.List(locations, "locations");
+                    /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
                     var department = new Departments();
                     var departments = department.GetAll();
-                    GeneralMenu.List(departments, "departments");
+                    /*GeneralView.List(departments, "departments");*/
                     break;
                 case "5":
                     var job = new Jobs();
                     var jobs = job.GetAll();
-                    GeneralMenu.List(jobs, "jobs");
+                    /*GeneralView.List(jobs, "jobs");*/
                     break;
                 case "6":
                     var history = new History();
                     var histories = history.GetAll();
-                    GeneralMenu.List(histories, "histories");
+                    /*GeneralView.List(histories, "histories");*/
                     break;
                 case "7":
                     var employee = new Employee();
                     var employees = employee.GetAll();
-                    GeneralMenu.List(employees, "employees");
+                    /*GeneralView.List(employees, "employees");*/
                     break;
                 case "8":
                     return false;

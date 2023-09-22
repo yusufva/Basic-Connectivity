@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Basic_Connectivity.Views
 {
-    public class GeneralMenu
+    public class GeneralView
     {
         //General method untuk menampilkan hasil Get
-        public static void List<T>(List<T> items, string title)
+        public void List<T>(List<T> items, string title)
         {
             Console.WriteLine("---------------");
             Console.WriteLine($"List of {title}");
@@ -21,11 +21,12 @@ namespace Basic_Connectivity.Views
             Console.WriteLine("---------------");
         }
 
-        public static void Message(string message)
+        public void Message(string message)
         {
             Console.WriteLine("---------------");
             int value;
-            if (int.TryParse(message, out value))
+            int.TryParse(message, out value);
+            if (value>0)
             {
                 Console.WriteLine($"Success, {value} Row Affected");
             }
@@ -34,6 +35,13 @@ namespace Basic_Connectivity.Views
                 Console.WriteLine("Failed to modify data");
             }
             Console.WriteLine("---------------");
+        }
+
+        public void Single<T>(T item, string title)
+        {
+            Console.WriteLine($"List of {title}");
+            Console.WriteLine("---------------");
+            Console.WriteLine(item.ToString());
         }
     }
 }
