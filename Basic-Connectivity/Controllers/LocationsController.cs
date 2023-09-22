@@ -73,7 +73,7 @@ namespace Basic_Connectivity.Controllers
             {
                 try
                 {
-                    locations = _locationsView.Updatelocations();
+                    locations = _locationsView.UpdateLocations();
                     if (string.IsNullOrEmpty(locations.city))
                     {
                         Console.WriteLine("locations city cannot be empty");
