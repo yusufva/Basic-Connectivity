@@ -171,12 +171,16 @@ namespace Basic_Connectivity
                     break;
                 case "2":
                     var country = new Country();
-                    var countries = country.GetAll();
+                    var countryView = new CountryView();
+                    var countryController = new CountryController(country, countryView);
+                    countryController.GetAll();
                     /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
-                    var location = new Locations();
-                    var locations = location.GetAll();
+                    var locations = new Locations();
+                    var locationsView = new LocationsView();
+                    var locationsController = new LocationsController(locations, locationsView);
+                    locationsController.GetAll();
                     /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
@@ -220,16 +224,17 @@ namespace Basic_Connectivity
                     /*GeneralView.Message(regions);*/
                     break;
                 case "2":
-                    var country = new Region();
-                    var countryView = new RegionView();
-                    var countryController = new RegionController(country, countryView);
+                    var country = new Country();
+                    var countryView = new CountryView();
+                    var countryController = new CountryController(country, countryView);
                     countryController.Insert();
                     /*GeneralView.Message(countries);*/
                     break;
                 case "3":
-                    
-                    var location = new Locations(locationsId, locationStreet, locationPostal, locationCity, locationProvince, locationCountryId);
-                    var locations = location.Insert(location);
+                    var locations = new Locations();
+                    var locationsView = new LocationsView();
+                    var locationsController = new LocationsController(locations, locationsView);
+                    locationsController.Insert();
                     /*GeneralView.Message(locations);*/
                     break;
                 case "4":
@@ -322,17 +327,23 @@ namespace Basic_Connectivity
             {
                 case "1":
                     var region = new Region();
-                    var regions = region.GetAll();
+                    var regionView = new RegionView();
+                    var regionController = new RegionController(region, regionView);
+                    regionController.Update();
                     /*GeneralView.List(regions, "regions");*/
                     break;
                 case "2":
                     var country = new Country();
-                    var countries = country.GetAll();
+                    var countryView = new CountryView();
+                    var countryController = new CountryController(country, countryView);
+                    countryController.Update();
                     /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
-                    var location = new Locations();
-                    var locations = location.GetAll();
+                    var locations = new Locations();
+                    var locationsView = new LocationsView();
+                    var locationsController = new LocationsController(locations, locationsView);
+                    locationsController.Update();
                     /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
@@ -369,17 +380,23 @@ namespace Basic_Connectivity
             {
                 case "1":
                     var region = new Region();
-                    var regions = region.GetAll();
+                    var regionView = new RegionView();
+                    var regionController = new RegionController(region, regionView);
+                    regionController.Delete();
                     /*GeneralView.List(regions, "regions");*/
                     break;
                 case "2":
                     var country = new Country();
-                    var countries = country.GetAll();
+                    var countryView = new CountryView();
+                    var countryController = new CountryController(country, countryView);
+                    countryController.Delete();
                     /*GeneralView.List(countries, "countries");*/
                     break;
                 case "3":
-                    var location = new Locations();
-                    var locations = location.GetAll();
+                    var locations = new Locations();
+                    var locationsView = new LocationsView();
+                    var locationsController = new LocationsController(locations, locationsView);
+                    locationsController.Delete();
                     /*GeneralView.List(locations, "locations");*/
                     break;
                 case "4":
