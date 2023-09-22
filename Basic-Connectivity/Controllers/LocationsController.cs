@@ -27,7 +27,7 @@ namespace Basic_Connectivity.Controllers
                 Console.WriteLine("No record found");
             }
             {
-                _locationsView.List(result, "regions");
+                _locationsView.List(result, "locations");
             }
         }
 
@@ -40,9 +40,9 @@ namespace Basic_Connectivity.Controllers
                 try
                 {
                     input = _locationsView.InsertInput();
-                    if (string.IsNullOrEmpty(input.streetAddress))
+                    if (string.IsNullOrEmpty(input.city))
                     {
-                        Console.WriteLine("locations ID/Name cannot be empty!");
+                        Console.WriteLine("locations city cannot be empty!");
                         continue;
                     }
                     isTrue = false;
@@ -53,27 +53,30 @@ namespace Basic_Connectivity.Controllers
                 }
             }
 
-            var result = _locations.Insert(new locations
+            var result = _locations.Insert(new Locations
             {
                 Id = input.Id,
-                Name = input.Name,
-                RegionId = input.RegionId
+                streetAddress = input.streetAddress,
+                postalCode = input.postalCode,
+                city = input.city,
+                statProvince = input.statProvince,
+                countryId = input.countryId
             });
             _locationsView.Message(result);
         }
 
         public void Update()
         {
-            var locations = new locations();
+            var locations = new Locations();
             var isTrue = true;
             while (isTrue)
             {
                 try
                 {
                     locations = _locationsView.Updatelocations();
-                    if (string.IsNullOrEmpty(locations.Id) || string.IsNullOrEmpty(locations.Name))
+                    if (string.IsNullOrEmpty(locations.city))
                     {
-                        Console.WriteLine("locations ID/Name cannot be empty");
+                        Console.WriteLine("locations city cannot be empty");
                         continue;
                     }
                     isTrue = false;
@@ -90,7 +93,7 @@ namespace Basic_Connectivity.Controllers
 
         public void Delete()
         {
-            var locations = new locations();
+            var locations = new Locations();
             var isTrue = true;
             while (isTrue)
             {
@@ -98,9 +101,9 @@ namespace Basic_Connectivity.Controllers
                 {
                     locations = _locationsView.DeleteInput();
                     var data = _locations.GetById(locations.Id);
-                    if (string.IsNullOrEmpty(data.Name))
+                    if (string.IsNullOrEmpty(data.city))
                     {
-                        Console.WriteLine($"No Region with Id = {data.Id}");
+                        Console.WriteLine($"No Locations with Id = {data.Id}");
                         continue;
                     }
                     isTrue = false;

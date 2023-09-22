@@ -27,7 +27,7 @@ namespace Basic_Connectivity.Controllers
                 Console.WriteLine("No record found");
             }
             {
-                _countryView.List(result, "regions");
+                _countryView.List(result, "country");
             }
         }
 
@@ -100,7 +100,7 @@ namespace Basic_Connectivity.Controllers
                     var data = _country.GetById(country.Id);
                     if (string.IsNullOrEmpty(data.Name))
                     {
-                        Console.WriteLine($"No Region with Id = {data.Id}");
+                        Console.WriteLine($"No Country with Id = {data.Id}");
                         continue;
                     }
                     isTrue = false;

@@ -45,7 +45,7 @@ namespace Basic_Connectivity.Views
             return new Locations { Id = locationsId };
         }
 
-        public Locations UpdateCountry()
+        public Locations UpdateLocations()
         {
             Console.Write("Input Locations Id (number): ");
             int locationsId;
