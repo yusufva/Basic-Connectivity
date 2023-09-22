@@ -213,39 +213,21 @@ namespace Basic_Connectivity
             switch (input)
             {
                 case "1":
-                    Console.Write("Input Region Name: ");
-                    var regionName = Console.ReadLine();
                     var region = new Region();
-                    region.Name = regionName;
-                    var regions = region.Insert(region);
+                    var regionView = new RegionView();
+                    var regionController = new RegionController(region, regionView);
+                    regionController.Insert();
                     /*GeneralView.Message(regions);*/
                     break;
                 case "2":
-                    Console.Write("Input Country Id (2 character): ");
-                    var countryId = Console.ReadLine();
-                    Console.Write("Input Country Name: ");
-                    var countryName = Console.ReadLine();
-                    Console.Write("Input Country Region Id(Number): ");
-                    int countryRegionId;
-                    int.TryParse(Console.ReadLine(), out countryRegionId);    
-                    var country = new Country(countryId, countryName,countryRegionId);
-                    var countries = country.Insert(country);
+                    var country = new Region();
+                    var countryView = new RegionView();
+                    var countryController = new RegionController(country, countryView);
+                    countryController.Insert();
                     /*GeneralView.Message(countries);*/
                     break;
                 case "3":
-                    Console.Write("Input Locations Id (number): ");
-                    int locationsId;
-                    int.TryParse(Console.ReadLine(), out locationsId);
-                    Console.Write("Input Street Address: ");
-                    var locationStreet = Console.ReadLine();
-                    Console.Write("Input Postal Code: ");
-                    var locationPostal = Console.ReadLine();
-                    Console.Write("Input City: ");
-                    var locationCity = Console.ReadLine();
-                    Console.Write("Input State Province: ");
-                    var locationProvince = Console.ReadLine();
-                    Console.Write("Input Country Id (2 character): ");
-                    var locationCountryId = Console.ReadLine();
+                    
                     var location = new Locations(locationsId, locationStreet, locationPostal, locationCity, locationProvince, locationCountryId);
                     var locations = location.Insert(location);
                     /*GeneralView.Message(locations);*/

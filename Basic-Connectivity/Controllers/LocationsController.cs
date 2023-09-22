@@ -8,41 +8,41 @@ using System.Threading.Tasks;
 
 namespace Basic_Connectivity.Controllers
 {
-    public class CountryController
+    internal class LocationsController
     {
-        private Country _country;
-        private CountryView _countryView;
+        private Locations _locations;
+        private LocationsView _locationsView;
 
-        public CountryController(Country country, CountryView countryView)
+        public LocationsController(Locations locations, LocationsView locationsView)
         {
-            _country = country;
-            _countryView = countryView;
+            _locations = locations;
+            _locationsView = locationsView;
         }
 
         public void GetAll()
         {
-            var result = _country.GetAll();
+            var result = _locations.GetAll();
             if (!result.Any())
             {
                 Console.WriteLine("No record found");
             }
             {
-                _countryView.List(result, "regions");
+                _locationsView.List(result, "regions");
             }
         }
 
         public void Insert()
         {
-            var input = new Country();
+            var input = new Locations();
             var isTrue = true;
             while (isTrue)
             {
                 try
                 {
-                    input = _countryView.InsertInput();
-                    if (string.IsNullOrEmpty(input.Id) || string.IsNullOrEmpty(input.Name))
+                    input = _locationsView.InsertInput();
+                    if (string.IsNullOrEmpty(input.streetAddress))
                     {
-                        Console.WriteLine("Country ID/Name cannot be empty!");
+                        Console.WriteLine("locations ID/Name cannot be empty!");
                         continue;
                     }
                     isTrue = false;
@@ -53,27 +53,27 @@ namespace Basic_Connectivity.Controllers
                 }
             }
 
-            var result = _country.Insert(new Country
+            var result = _locations.Insert(new locations
             {
                 Id = input.Id,
                 Name = input.Name,
-                RegionId = input.RegionId 
+                RegionId = input.RegionId
             });
-            _countryView.Message(result);
+            _locationsView.Message(result);
         }
 
         public void Update()
         {
-            var country = new Country();
+            var locations = new locations();
             var isTrue = true;
             while (isTrue)
             {
                 try
                 {
-                    country = _countryView.UpdateCountry();
-                    if (string.IsNullOrEmpty(country.Id) || string.IsNullOrEmpty(country.Name))
+                    locations = _locationsView.Updatelocations();
+                    if (string.IsNullOrEmpty(locations.Id) || string.IsNullOrEmpty(locations.Name))
                     {
-                        Console.WriteLine("Country ID/Name cannot be empty");
+                        Console.WriteLine("locations ID/Name cannot be empty");
                         continue;
                     }
                     isTrue = false;
@@ -84,20 +84,20 @@ namespace Basic_Connectivity.Controllers
                 }
             }
 
-            var result = _country.Update(country);
-            _countryView.Message(result);
+            var result = _locations.Update(locations);
+            _locationsView.Message(result);
         }
 
         public void Delete()
         {
-            var country = new Country();
+            var locations = new locations();
             var isTrue = true;
             while (isTrue)
             {
                 try
                 {
-                    country = _countryView.DeleteInput();
-                    var data = _country.GetById(country.Id);
+                    locations = _locationsView.DeleteInput();
+                    var data = _locations.GetById(locations.Id);
                     if (string.IsNullOrEmpty(data.Name))
                     {
                         Console.WriteLine($"No Region with Id = {data.Id}");
@@ -111,8 +111,8 @@ namespace Basic_Connectivity.Controllers
                 }
             }
 
-            var result = _country.Delete(country.Id);
-            _countryView.Message(result);
+            var result = _locations.Delete(locations.Id);
+            _locationsView.Message(result);
         }
     }
 }
